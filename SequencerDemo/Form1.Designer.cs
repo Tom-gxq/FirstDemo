@@ -224,7 +224,7 @@ namespace SequencerDemo
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 181);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 235);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(513, 259);
             this.pictureBox1.TabIndex = 7;

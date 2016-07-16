@@ -287,35 +287,48 @@ namespace Sanford.Multimedia.Midi
                 newTrack.Insert(ticks, new MetaMessage(type, data));        
 
                 trackIndex += data.Length;
-                if(MetaType.TimeSignature == type)
+                switch (type)
                 {
-                    //记录拍子记号
-                    this.score.FewShot = data[0];
-                    //以什么类型音符为一拍
-                    int tem = data[1];
-                    switch (tem)
-                    {
-                        case 0:
-                            this.score.OneShotNote = SequencerDemo.Note.NoteType.Semibreve;
-                            break;
-                        case 1:
-                            this.score.OneShotNote = SequencerDemo.Note.NoteType.Minims;
-                            break;
-                        case 2:
-                            this.score.OneShotNote = SequencerDemo.Note.NoteType.CrotchetsC;
-                            break;
-                        case 3:
-                            this.score.OneShotNote = SequencerDemo.Note.NoteType.Quavers;
-                            break;
-                        case 4:
-                            this.score.OneShotNote = SequencerDemo.Note.NoteType.Demiquaver;
-                            break;
-                        case 5:
-                            this.score.OneShotNote = SequencerDemo.Note.NoteType.Demisemiquaver;
-                            break;
-                    }
-                    
+                    case MetaType.TimeSignature:
+                        {
+                            //记录拍子记号
+                            this.score.FewShot = data[0];
+                            //以什么类型音符为一拍
+                            int tem = data[1];
+                            switch (tem)
+                            {
+                                case 0:
+                                    this.score.OneShotNote = SequencerDemo.Note.NoteType.Semibreve;
+                                    break;
+                                case 1:
+                                    this.score.OneShotNote = SequencerDemo.Note.NoteType.Minims;
+                                    break;
+                                case 2:
+                                    this.score.OneShotNote = SequencerDemo.Note.NoteType.CrotchetsC;
+                                    break;
+                                case 3:
+                                    this.score.OneShotNote = SequencerDemo.Note.NoteType.Quavers;
+                                    break;
+                                case 4:
+                                    this.score.OneShotNote = SequencerDemo.Note.NoteType.Demiquaver;
+                                    break;
+                                case 5:
+                                    this.score.OneShotNote = SequencerDemo.Note.NoteType.Demisemiquaver;
+                                    break;
+                            }
+                        }
+                        break;
+                    case MetaType.Text:
+                        //作者
+                        this.score.Author = System.Text.Encoding.Default.GetString(data);
+                        break;
+                    case MetaType.TrackName:
+                        //曲名
+                        this.score.Name = System.Text.Encoding.Default.GetString(data);
+                        break;
                 }
+                
+
             }
         }
 
