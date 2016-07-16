@@ -1,0 +1,14 @@
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\bin\Debug\MidiWatcher.exe
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\bin\Debug\MidiWatcher.pdb
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\bin\Debug\Sanford.Collections.dll
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\bin\Debug\Sanford.Multimedia.dll
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\bin\Debug\Sanford.Multimedia.Midi.dll
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\bin\Debug\Sanford.Threading.dll
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\bin\Debug\Sanford.Multimedia.Timers.dll
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\bin\Debug\Sanford.Multimedia.Midi.pdb
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\obj\Debug\MidiWatcher.csprojResolveAssemblyReference.cache
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\obj\Debug\MidiWatcher.Form1.resources
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\obj\Debug\MidiWatcher.Properties.Resources.resources
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\obj\Debug\MidiWatcher.csproj.GenerateResource.Cache
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\obj\Debug\MidiWatcher.exe
+D:\项目构建\智能钢琴音乐项目\MIDI\CSharpMidiToolkitV5_demo\MidiWatcher\obj\Debug\MidiWatcher.pdb
