@@ -99,5 +99,17 @@ namespace SequencerDemo.Note
             }
         }
 
+        public Note GetPreLast()
+        {
+            if (this.noteList.Count > 1)
+            {
+                return this.noteList[(int)this.Count - 2];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }

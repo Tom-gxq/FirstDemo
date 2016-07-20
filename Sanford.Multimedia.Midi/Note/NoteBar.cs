@@ -62,9 +62,27 @@ namespace SequencerDemo.Note
             if (command == ChannelCommand.NoteOn)
             {
                 NoteBlock block = null;
+                SequencerDemo.Note.Note preNote = null;
+                SequencerDemo.Note.Note prePreNote = null;
                 if (this.noteList.Count > 0)
                 {
                     block = this.noteList.Pop();
+                    if(block.Count >0)
+                    {
+                        preNote = block.GetLast();
+                    }
+
+                    if (block.Count > 1)
+                    {
+                        prePreNote = block.GetPreLast();
+                    }
+                    else if(noteList.Count > 0)
+                    {
+                       var temBlock = this.noteList.Pop();
+                        prePreNote = temBlock.GetLast();
+                        this.noteList.Push(temBlock);
+                    }
+
                     if (block.BlockTicks >= this.bitTime)
                     {
                         this.noteList.Push(block);
@@ -80,6 +98,21 @@ namespace SequencerDemo.Note
                 {
                     note.Ticks = ticks;
                     block.AddNote(note);
+
+                    bool ret = NoteScoreTable.Instance.IsBlackNote(preNote);
+                    if((ret)&&(prePreNote != null)&&(preNote != null))
+                    {
+                        double  lineDiff = (note.Location.line+ note.Location.offset*0.1) - (prePreNote.Location.line+ prePreNote.Location.offset * 0.1);
+                        if(Math.Abs(lineDiff) < 1)
+                        {
+                            preNote.Location = prePreNote.Location;
+                            preNote.Lift = NoteLift.Up;
+                        }
+                        else
+                        {
+                            preNote.Lift = NoteLift.Down;
+                        }
+                    }
                 }
 
                 this.noteList.Push(block);

@@ -28,6 +28,8 @@ namespace Sanford.Multimedia.Midi.Config
     public class NoteScoreTable
     {
         private Dictionary<int, SequencerDemo.Note.Note> dic = new Dictionary<int, SequencerDemo.Note.Note>();
+
+        private List<SequencerDemo.Note.Note> blackList = new List<SequencerDemo.Note.Note>();
         private NoteScoreTable()
         {
             NoteLocation location = new NoteLocation (){ line=0, offset  = 0 ,soundType = SoundDepart.Center };
@@ -239,11 +241,177 @@ namespace Sanford.Multimedia.Midi.Config
             #endregion
 
             #region 黑键
+
+            #region 低音
+
+            location = new NoteLocation() { line = -2, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 34;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = -1, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 37;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+
+            location = new NoteLocation() { line = 0, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 39;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+
+            location = new NoteLocation() { line = 0, offset = 5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 42;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 1, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 44;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 1, offset = 5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 46;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 2, offset = 5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 49;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 3, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 51;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 4, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 54;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 4, offset = 5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 56;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 5, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 58;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            #endregion
+
+            #region 高音
+            location = new NoteLocation() { line = 0, offset = 5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 61;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 1, offset = -5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 63;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 1, offset = 5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 66;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 2, offset = 5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 68;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
             location = new NoteLocation() { line = 3, offset = 0, soundType = SoundDepart.High };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 70;
             dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 3, offset = 5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 73;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 4, offset = 5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 75;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 4, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 78;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 5, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 80;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 6, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 82;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 7, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 85;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            location = new NoteLocation() { line = 7, offset = 5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 87;
+            dic.Add(note.Data, note);
+            blackList.Add(note);
+
+            #endregion
+
             #endregion
 
             #region 休止符
@@ -307,6 +475,33 @@ namespace Sanford.Multimedia.Midi.Config
             else
             {
                 return null;
+            }
+        }
+
+        public bool IsBlackNote(SequencerDemo.Note.Note note )
+        {
+            if(note == null)
+            {
+                return false;
+            }
+            var noteobj=  this.blackList.Find(x =>
+            {
+                if (x.Data == note.Data)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+            if(noteobj == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 

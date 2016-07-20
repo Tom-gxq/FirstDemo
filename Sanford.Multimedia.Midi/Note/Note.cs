@@ -54,18 +54,49 @@ namespace SequencerDemo.Note
         Up,
         Down
     }
+
+    /// <summary>
+    /// 音符升降号
+    /// </summary>
+    public enum NoteLift
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        None,
+        /// <summary>
+        /// 升号
+        /// </summary>
+        Up,
+        /// <summary>
+        /// 降号
+        /// </summary>
+        Down
+    }
     /// <summary>
     /// 音符数据
     /// </summary>
     public class Note : ICloneable
     {
         private long id;//音符ID
-        
+
         private string name;//音符名
         private NoteType noteType;//音符类型
         private CrochetType noteCrochetType;//符杆方向
         private NoteLocation location;//音符位置
         private int ticks;
+        private NoteLift lift = NoteLift.None;
+        public NoteLift Lift
+        {
+            get
+            {
+                return this.lift;
+            }
+            set
+            {
+                this.lift = value;
+            }
+        }
 
         public long Id
         {

@@ -386,6 +386,8 @@ namespace SequencerDemo
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.labName.Text = this.score.Name;
+            this.labAuthor.Text = this.score.Author;
             var list = this.score.NoteBars;
             if(list != null)
             {
@@ -496,7 +498,24 @@ namespace SequencerDemo
                     p2 = new Point(pointX, pointY + NOTE_TAIL_HEIGHT);
                 }
                 g.DrawLine(myPen, p1, p2);
-                
+
+                //»­Éý½µºÅ
+                if(note.Lift ==  NoteLift.Down)
+                {
+                    //»­½µºÅ
+                    Font font = new Font("ËÎÌå", 11);
+                    SolidBrush mysbrush1 = new SolidBrush(Color.Blue);
+                    g.DrawString("b", font, mysbrush1, pointX - 10, pointY-5);
+                }
+                else if (note.Lift == NoteLift.Up)
+                {
+                    //»­ÉýºÅ
+                    Font font = new Font("ËÎÌå", 11);
+                    SolidBrush mysbrush1 = new SolidBrush(Color.Blue);
+                    g.DrawString("#", font, mysbrush1, pointX - 10, pointY-5);
+                }
+
+
             }
         }
 

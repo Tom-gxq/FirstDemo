@@ -53,6 +53,8 @@ namespace SequencerDemo
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.labName = new System.Windows.Forms.Label();
+            this.labAuthor = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -240,11 +242,32 @@ namespace SequencerDemo
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // labName
+            // 
+            this.labName.AutoSize = true;
+            this.labName.Font = new System.Drawing.Font("ËÎÌו", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labName.Location = new System.Drawing.Point(185, 162);
+            this.labName.Name = "labName";
+            this.labName.Size = new System.Drawing.Size(75, 19);
+            this.labName.TabIndex = 9;
+            this.labName.Text = "label1";
+            // 
+            // labAuthor
+            // 
+            this.labAuthor.AutoSize = true;
+            this.labAuthor.Location = new System.Drawing.Point(13, 198);
+            this.labAuthor.Name = "labAuthor";
+            this.labAuthor.Size = new System.Drawing.Size(41, 12);
+            this.labAuthor.TabIndex = 10;
+            this.labAuthor.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(513, 587);
+            this.Controls.Add(this.labAuthor);
+            this.Controls.Add(this.labName);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.statusStrip1);
@@ -292,6 +315,8 @@ namespace SequencerDemo
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label labName;
+        private System.Windows.Forms.Label labAuthor;
     }
 }
 

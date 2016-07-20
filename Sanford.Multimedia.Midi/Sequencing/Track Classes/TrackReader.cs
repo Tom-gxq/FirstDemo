@@ -239,6 +239,9 @@ namespace Sanford.Multimedia.Midi
             cmBuilder.MidiChannel = ChannelMessage.UnpackMidiChannel(status);
             cmBuilder.Data1 = trackData[trackIndex];
 
+            //添加音符到描画结构
+            this.score.AddNote(cmBuilder.Data1, cmBuilder.Command, noteTicks);
+
             trackIndex++;
 
             if(ChannelMessage.DataBytesPerType(cmBuilder.Command) == 2)
@@ -253,7 +256,7 @@ namespace Sanford.Multimedia.Midi
                 trackIndex++;
             }  
 
-            cmBuilder.Build();
+            cmBuilder.Build();            
             newTrack.Insert(ticks, cmBuilder.Result, noteTicks);
             runningStatus = status;
         }
