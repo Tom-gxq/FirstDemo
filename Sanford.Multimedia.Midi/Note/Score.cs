@@ -10,7 +10,8 @@ namespace SequencerDemo.Note
     {
         private string name;
         private string author;//作者
-        private Stack<NoteBar> barList =new Stack<NoteBar>();//小节
+        private Stack<NoteBar> barList =new Stack<NoteBar>();//高音部小节
+        private Stack<NoteBar> lowBarList = new Stack<NoteBar>();//低音部小节
         private int fewShot;//一小节有几拍
         private NoteType oneShotNote;//以什么样的音符为一拍
         private int bitTime;//一拍的时间（单位tick）
@@ -100,6 +101,38 @@ namespace SequencerDemo.Note
                 }
             }
         }
+
+        public NoteBar GetLastBar(int data)
+        {
+            bool ret = NoteScoreTable.Instance.IsLowNote(data);
+            NoteBar lastBar = null;
+            if (ret)
+            {
+                if (this.lowBarList.Count > 0)
+                {
+                    lastBar = this.lowBarList.Pop();
+                    this.lowBarList.Push(lastBar);
+                    return lastBar;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                if (this.barList.Count > 0)
+                {
+                    lastBar = this.barList.Pop();
+                    this.barList.Push(lastBar);
+                    return lastBar;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
         public void AddNoteBars(NoteBar noteBar)
         {
             this.barList.Push(noteBar);
@@ -107,50 +140,94 @@ namespace SequencerDemo.Note
         
         public void AddNote(int data1, ChannelCommand command,int ticks)
         {
-            if(command == ChannelCommand.NoteOn)
+            bool ret = NoteScoreTable.Instance.IsLowNote(data1);
+            if (ret)
+            {
+                AddNoteToLowBar(data1, command, ticks);
+            }
+            else
+            {
+                AddNoteToHightBar(data1, command, ticks);
+            }
+        }
+
+        public void AddNoteToHightBar(int data1, ChannelCommand command, int ticks)
+        {
+            if (command == ChannelCommand.NoteOn)
             {
                 NoteBar bar = null;
                 if (this.barList.Count > 0)
                 {
                     bar = this.barList.Pop();
                     int paiCnt = bar.BarTicks % this.BitTime;
-                    if (((bar.BarTicks / this.BitTime ) >=this.fewShot)
-                        ||((paiCnt >0) &&(bar.BarTicks > this.bitTime) && (( this.BitTime % paiCnt > 0)) ))
+                    if (((bar.BarTicks / this.BitTime) >= this.fewShot)
+                        || ((paiCnt > 0) && (bar.BarTicks > this.bitTime) && ((this.BitTime % paiCnt > 0))))
                     {
                         this.barList.Push(bar);
-                        bar = new NoteBar(this.bitTime);
+                        bar = new NoteBar(this.bitTime,this);
+                        if (this.lowBarList.Count > 0)
+                        {
+                            AddStopToLowBar();
+                        }
                     }
                 }
                 else
                 {
-                    bar = new NoteBar(this.bitTime);
+                    bar = new NoteBar(this.bitTime,this);
+                    if (this.lowBarList.Count > 0)
+                    {
+                        AddStopToLowBar();
+                    }
                 }
 
-                if ((ticks > 0) && (this.barList.Count <= 0))
+                //开始播放命令前面有时间的话，添加结束符
+                if (ticks > 0)
                 {
-                    int data2 = 0;
-                    if (ticks / this.bitTime == this.fewShot)
+                    int data2 = GetStopNoteValue(ticks);
+                    //如果是第一个小节前有停止符，则添加到当前的小节中
+                    if (this.barList.Count <= 0)
                     {
-                        data2 = (int)StopNoteVal.AllStop;
+                        bar.AddNote(data2, command, ticks);
+                        //如果该停止符是全停止符，则再生成个小节添加音符
+                        if (data2 == (int)StopNoteVal.AllStop)
+                        {
+                            this.barList.Push(bar);
+                            bar = new NoteBar(this.bitTime,this);
+                            if (this.lowBarList.Count > 0)
+                            {
+                                AddStopToLowBar();
+                            }
+                        }
                     }
-                    else if (ticks / this.bitTime == this.fewShot/2)
+                    //如果小节中已经有音符且小节未满，停止符添加到当前小节中
+                    else if(bar.BarTicks > 0)
                     {
-                        data2 = (int)StopNoteVal.MinimsStop;
+                        bar.AddNote(data2, command, ticks);
+                        //添加停止符后，小节满了，则再创建一个小节，添加音符
+                        if (bar.BarTicks >= this.fewShot * this.bitTime)
+                        {
+                            this.barList.Push(bar);
+                            bar = new NoteBar(this.bitTime, this);
+                            if (this.lowBarList.Count > 0)
+                            {
+                                AddStopToLowBar();
+                            }
+                        }
                     }
-                    else if (ticks / this.bitTime == this.fewShot / 4)
+                    //如果是当前小节的第一个音符，且前面还有其他小节，则添加到前面的小节中
+                    else
                     {
-                        data2 = (int)StopNoteVal.CrotchetsCStop;
+                        var preBar = this.barList.Pop();
+                        preBar.AddNote(data2, command, ticks);
+                        this.barList.Push(preBar);
                     }
-                    else if (ticks / this.bitTime == this.fewShot / 8)
-                    {
-                        data2 = (int)StopNoteVal.QuaversStop;
-                    }
-
-                    bar.AddNote(data2, command, ticks);
-                    if (data2 == (int)StopNoteVal.AllStop)
+                   
+                    //添加结束符后，小节时间满了的话，添加新的小节
+                    if(bar.BarTicks == (this.fewShot*this.bitTime))
                     {
                         this.barList.Push(bar);
-                        bar = new NoteBar(this.bitTime);
+                        bar = new NoteBar(this.bitTime,this);
+                        ticks = 0;
                     }
                 }
                 bar.AddNote(data1, command, ticks);
@@ -165,6 +242,99 @@ namespace SequencerDemo.Note
                     this.barList.Push(bar);
                 }
             }
+        }
+
+        private NoteBar preHightBar = null;
+        public void AddNoteToLowBar(int data1, ChannelCommand command, int ticks)
+        {
+            if (command == ChannelCommand.NoteOn)
+            {
+                NoteBar bar = null;
+                NoteBlock lastBlock = null;
+                if (this.lowBarList.Count <= 0)
+                {
+                    for (int i = 0; i < (this.barList.Count-1); i++)
+                    {
+                        AddStopToLowBar();
+                    }
+                }
+                if(this.barList.Count > 0)
+                {
+                    preHightBar = this.barList.Pop();
+                    if (preHightBar.Notes.Count > 0)
+                    {
+                        lastBlock = preHightBar.Notes[preHightBar.Notes.Count - 1];
+                    }                    
+                    this.barList.Push(preHightBar);
+                }
+
+                if(lastBlock  != null)
+                {
+                    //低音音符前如果没有音符的话，前面加停止符
+                    var stopBar = new NoteBar(this.bitTime,this);
+                    int data2 = GetStopNoteValue(lastBlock.BlockTicks);
+                    stopBar.AddNote(data1, command, lastBlock.BlockTicks);
+                    this.lowBarList.Push(stopBar);
+                }
+                if (this.lowBarList.Count > 0)
+                {
+                    bar = this.lowBarList.Pop();
+                    int paiCnt = bar.BarTicks % this.BitTime;
+                    if (((bar.BarTicks / this.BitTime) >= this.fewShot)//小节拍数已满
+                        || ((paiCnt > 0) && (bar.BarTicks > this.bitTime) && ((this.BitTime % paiCnt > 0)))//小节中已有拍数，且小节已有时间大于一拍时间
+                        )
+                    {
+                        this.lowBarList.Push(bar);
+                        bar = new NoteBar(this.bitTime,this);
+                    }
+                }
+                else
+                {
+                    bar = new NoteBar(this.bitTime,this);
+                }
+
+
+                bar.AddNote(data1, command, ticks);
+                this.lowBarList.Push(bar);
+            }
+            else
+            {
+                if (this.lowBarList.Count > 0)
+                {
+                    var bar = this.lowBarList.Pop();
+                    bar.AddNote(data1, command, ticks);
+                    this.lowBarList.Push(bar);
+                    preHightBar.AddNote(data1, command, ticks);
+                }
+            }
+        }
+        public void AddStopToLowBar()
+        {
+            NoteBar bar = new NoteBar(this.bitTime,this);
+            bar.AddNote((int)StopNoteVal.AllStop, ChannelCommand.NoteOn, this.bitTime);
+            this.lowBarList.Push(bar);
+        }
+
+        private int GetStopNoteValue(int ticks)
+        {
+            int data2 = 0;
+            if (ticks / this.bitTime == this.fewShot)
+            {
+                data2 = (int)StopNoteVal.AllStop;
+            }
+            else if (ticks / this.bitTime == this.fewShot / 2)
+            {
+                data2 = (int)StopNoteVal.MinimsStop;
+            }
+            else if (ticks / this.bitTime == this.fewShot / 4)
+            {
+                data2 = (int)StopNoteVal.CrotchetsCStop;
+            }
+            else if (ticks / this.bitTime == this.fewShot / 8)
+            {
+                data2 = (int)StopNoteVal.QuaversStop;
+            }
+            return data2;
         }
     }
 }

@@ -266,6 +266,7 @@ namespace SequencerDemo
         private const int LINE_HEIGHT_PER = 10;//五线谱每条线的高度
         private const int NOTE_VERTICAL_SPACING = 20;//每个音符的行间距
         private const int NOTE_TAIL_HEIGHT = LINE_HEIGHT_PER*2+ LINE_HEIGHT_PER/2;//音符尾巴高度
+        private int barLineNum = 0;//每行小节数
 
         /// <summary>
         // 描画音符*
@@ -389,14 +390,15 @@ namespace SequencerDemo
             this.labName.Text = this.score.Name;
             this.labAuthor.Text = this.score.Author;
             var list = this.score.NoteBars;
-            if(list != null)
+           
+            if (list != null)
             {
                 SequencerDemo.Note.Note lastNote = null;
                 for (int i= list.Count-1; i>=0;i--)
                 {
                     if(i >= 0)
                     {                        
-                        DrawBar(lastNote);
+                        DrawBar(lastNote,list[i]);
                     }
                     if ((list[i] != null)&&(list[i].Notes != null))
                     {
@@ -488,16 +490,59 @@ namespace SequencerDemo
             using (Pen myPen = new Pen(Color.Red, 2))
             {
                 //画符头
-                g.DrawEllipse(myPen, pointX, pointY, 4, 5);
-                //画符杆
-                Point p1 = new Point(pointX + 4, pointY);
-                Point p2 = new Point(pointX + 4, pointY - NOTE_TAIL_HEIGHT);
-                if (note.CrochetType == CrochetType.Down)
+                switch(note.NoteType)
                 {
-                    p1 = new Point(pointX, pointY);
-                    p2 = new Point(pointX, pointY + NOTE_TAIL_HEIGHT);
+                    case NoteType.Semibreve://全音符
+                        g.DrawEllipse(myPen, pointX, pointY, 6, 7);
+                        noteCount += 3;
+                        break;
+                    case NoteType.Minims://二分音符
+                        g.DrawEllipse(myPen, pointX, pointY, 6, 6);
+                        noteCount++;
+                        break;
+                    case NoteType.CrotchetsC://四分音符
+                    case NoteType.Quavers://八分音符
+                    case NoteType.Demiquaver://十六分音符
+                    case NoteType.Demisemiquaver://三十二分音符
+                        g.DrawEllipse(myPen, pointX, pointY, 4, 5);
+                        g.FillEllipse(new SolidBrush(Color.Red), pointX, pointY, 4, 5);
+                        break;
                 }
-                g.DrawLine(myPen, p1, p2);
+
+                if((note.Location.line == 0)&&(note.Location.offset == 0))
+                {
+                    //画基准线
+                    Point p1 = new Point(pointX - 4, pointY+4);
+                    Point p2 = new Point(pointX+10, pointY+4);
+                    g.DrawLine(myPen, p1, p2);
+                }
+
+                //画符杆
+                if (note.NoteType != NoteType.Semibreve)
+                {
+                    Point p1 = new Point(pointX + 4, pointY);
+                    Point p2 = new Point(pointX + 4, pointY - NOTE_TAIL_HEIGHT);
+                    if (note.NoteType == NoteType.Minims)
+                    {
+                        p1 = new Point(pointX + 6, pointY+3);
+                        p2 = new Point(pointX + 6, pointY - NOTE_TAIL_HEIGHT);
+                    }
+
+                    if (note.CrochetType == CrochetType.Down)
+                    {
+                        if (note.NoteType == NoteType.Minims)
+                        {
+                            p1 = new Point(pointX, pointY-3);
+                            p2 = new Point(pointX, pointY + NOTE_TAIL_HEIGHT);
+                        }
+                        else
+                        {
+                            p1 = new Point(pointX, pointY);
+                            p2 = new Point(pointX, pointY + NOTE_TAIL_HEIGHT);
+                        }
+                    }
+                    g.DrawLine(myPen, p1, p2);
+                }
 
                 //画升降号
                 if(note.Lift ==  NoteLift.Down)
@@ -531,7 +576,7 @@ namespace SequencerDemo
             }
             switch (note.NoteType)
             {
-                case NoteType.AllStop:
+                case NoteType.AllStop://全停止符
                     {
                         noteCount = 2;
 
@@ -555,7 +600,67 @@ namespace SequencerDemo
                         this.noteBarCount = 3;
                     }
                     break;
-                case NoteType.QuaversStop:
+                case NoteType.MinimsStop://二分停止符
+                    {
+                        noteCount++;
+                        int pointY = note.Location.line - TOTAL_LINE;
+
+                        if (pointY != 0)
+                        {
+                            pointY = (-pointY + locationY) * LINE_HEIGHT_PER + note.Location.offset;
+                        }
+                        int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+
+                        Graphics g = pictureBox1.CreateGraphics();
+                        using (Pen myPen = new Pen(Color.Red, 2))
+                        {
+                            Point p1 = new Point(pointX, pointY);
+                            Point p2 = new Point(pointX + 10, pointY);
+                            g.DrawLine(myPen, p1, p2);
+                        }
+                        noteCount++;
+                    }
+                    break;
+                case NoteType.CrotchetsCStop://四分停止符
+                    {
+                        noteCount++;
+                        int pointY = 4- TOTAL_LINE;
+
+                        if (pointY != 0)
+                        {
+                            pointY = (-pointY + locationY) * LINE_HEIGHT_PER;
+                        }
+                        int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;                     
+
+
+                        Graphics g = pictureBox1.CreateGraphics();
+                        using (Pen myPen = new Pen(Color.Red, 2))
+                        {
+                            Point p1 = new Point(pointX, pointY);
+                            Point p2 = new Point(pointX + 10, pointY + 3);
+                            g.DrawLine(myPen, p1, p2);
+
+                            RectangleF oval = new RectangleF((float)pointX, pointY+3, 10, 10);
+                            g.DrawArc(myPen, oval, 180, 150);
+
+
+                            pointY = 3 - TOTAL_LINE;
+                            if (pointY != 0)
+                            {
+                                pointY = (-pointY + locationY) * LINE_HEIGHT_PER;
+                            }
+                            pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+
+                            oval = new RectangleF((float)pointX-5, pointY, 10, 10);
+                            g.DrawArc(myPen, oval,-90, 300);
+
+                            p1 = new Point(pointX -5, pointY+5);
+                            p2 = new Point(pointX + 5, pointY + LINE_HEIGHT_PER);
+                            g.DrawLine(myPen, p1, p2);
+                        }
+                    }
+                    break;
+                case NoteType.QuaversStop://八分停止符
                     {
                         noteCount++;
                         int pointY = 3 - TOTAL_LINE;
@@ -723,36 +828,41 @@ namespace SequencerDemo
         /// 画小节线
         /// </summary>
         /// <param name="note"></param>
-        private void DrawBar(SequencerDemo.Note.Note note)
+        private void DrawBar(SequencerDemo.Note.Note note, SequencerDemo.Note.NoteBar bar)
         {
             if (note == null)
             {
                 return;
             }
-            int pointY = note.Location.line - TOTAL_LINE;
-
-            if (pointY != 0)
-            {
-                pointY = (-pointY + locationY) * LINE_HEIGHT_PER + note.Location.offset - 4;
-            }
-            int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
-
-            Graphics g = pictureBox1.CreateGraphics();
-            using (Pen pen = new Pen(Color.Blue, 2))
-            {
-                Point pp1 = new Point(pointX + NOTE_VERTICAL_SPACING, locationY * LINE_HEIGHT_PER);
-                Point pp2 = new Point(pointX + NOTE_VERTICAL_SPACING, locationY * LINE_HEIGHT_PER + 5 * LINE_HEIGHT_PER);
-                g.DrawLine(pen, pp1, pp2);
-                locationX += NOTE_VERTICAL_SPACING;
-            }
-
-            if ((this.barCount > 0) && (this.barCount % 5 == 0))
+            long barWidth = bar.NoteNum * NOTE_VERTICAL_SPACING;
+            int overWidth = this.pictureBox1.Width - (noteCount + this.barCount+1) * NOTE_VERTICAL_SPACING;
+            if ((overWidth < 0) || (overWidth / barWidth <= 0))
             {
                 locationY += TOTAL_LINE;
                 locationX = 0;
                 noteCount = 0;
                 this.noteBarCount = 0;
             }
+            else
+            {
+                int pointY = note.Location.line - TOTAL_LINE;
+
+                if (pointY != 0)
+                {
+                    pointY = (-pointY + locationY) * LINE_HEIGHT_PER + note.Location.offset - 4;
+                }
+                int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+
+                Graphics g = pictureBox1.CreateGraphics();
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    Point pp1 = new Point(pointX + NOTE_VERTICAL_SPACING, locationY * LINE_HEIGHT_PER);
+                    Point pp2 = new Point(pointX + NOTE_VERTICAL_SPACING, locationY * LINE_HEIGHT_PER + 5 * LINE_HEIGHT_PER);
+                    g.DrawLine(pen, pp1, pp2);
+                    locationX += NOTE_VERTICAL_SPACING;
+                }
+            }
+            
         }
 
 

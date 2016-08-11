@@ -42,6 +42,32 @@ namespace SequencerDemo.Note
             }
         }
 
+        public long NoteCount
+        {
+            get
+            {
+                int cnt = 0;
+                foreach(var item in this.noteList)
+                {
+                    switch(item.NoteType)
+                    {
+                        case NoteType.Semibreve:
+                        case NoteType.AllStop:
+                            cnt += 4;
+                            break;
+                        case NoteType.Minims:
+                        case NoteType.MinimsStop:
+                            cnt += 2;
+                            break;
+                        default:
+                            cnt++;
+                            break;
+                    }
+                }
+                return cnt;
+            }
+        }
+
         public int BlockTicks
         {
             get
@@ -54,7 +80,8 @@ namespace SequencerDemo.Note
         public void AddNote(Note note)
         {
             double baseLine = Math.Abs((note.Location.line+(note.Location.offset!=0?0.5:0) ) - 3);
-            if(this.noteList.Count == 0)
+            var list = this.noteList.FindAll(x => { return (x.NoteType < NoteType.AllStop); });
+            if(list.Count == 0)
             {
                 this.maxLine = (note.Location.line + (note.Location.offset != 0 ? 0.5 : 0));
             }

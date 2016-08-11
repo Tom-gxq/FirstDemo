@@ -30,6 +30,8 @@ namespace Sanford.Multimedia.Midi.Config
         private Dictionary<int, SequencerDemo.Note.Note> dic = new Dictionary<int, SequencerDemo.Note.Note>();
 
         private List<SequencerDemo.Note.Note> blackList = new List<SequencerDemo.Note.Note>();
+
+        private List<SequencerDemo.Note.Note> lowkList = new List<SequencerDemo.Note.Note>();
         private NoteScoreTable()
         {
             NoteLocation location = new NoteLocation (){ line=0, offset  = 0 ,soundType = SoundDepart.Center };
@@ -148,96 +150,112 @@ namespace Sanford.Multimedia.Midi.Config
             note.Location = location;
             note.Data = 59;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 5, offset = 0, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 57;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 4, offset = -5, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 55;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 4, offset = 0, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 53;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 3, offset = -5, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 52;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 3, offset =0, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 50;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 2, offset = -5, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 48;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 2, offset = 0, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 47;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 1, offset = -5, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 45;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 1, offset = 0, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 43;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 0, offset = -5, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 41;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = 0, offset = 0, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 40;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = -1, offset = -5, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 38;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = -1, offset = 0, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 36;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = -1, offset = -5, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 35;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
 
             location = new NoteLocation() { line = -2, offset = 0, soundType = SoundDepart.Slow };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 33;
             dic.Add(note.Data, note);
+            lowkList.Add(note);
             #endregion
 
             #region 黑键
@@ -486,23 +504,18 @@ namespace Sanford.Multimedia.Midi.Config
             }
             var noteobj=  this.blackList.Find(x =>
             {
-                if (x.Data == note.Data)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return (x.Data == note.Data);
             });
-            if(noteobj == null)
+            return (noteobj != null);
+        }
+
+        public bool IsLowNote(int data)
+        {
+            var noteobj = this.lowkList.Find(x =>
             {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+                return (x.Data == data);
+            });
+            return (noteobj != null);
         }
 
     }
