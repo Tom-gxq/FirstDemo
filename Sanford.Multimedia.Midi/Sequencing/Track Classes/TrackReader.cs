@@ -301,7 +301,7 @@ namespace Sanford.Multimedia.Midi
                             switch (tem)
                             {
                                 case 0:
-                                    this.score.OneShotNote = SequencerDemo.Note.NoteType.Semibreve;
+                                    this.score.OneShotNote = SequencerDemo.Note.NoteType.Whole;
                                     break;
                                 case 1:
                                     this.score.OneShotNote = SequencerDemo.Note.NoteType.Minims;

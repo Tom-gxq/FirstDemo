@@ -28,6 +28,8 @@ namespace Sanford.Multimedia.Midi.Config
     public class NoteScoreTable
     {
         private Dictionary<int, SequencerDemo.Note.Note> dic = new Dictionary<int, SequencerDemo.Note.Note>();
+        private Dictionary<string, int> hightNoteValueDic = new Dictionary<string, int>();
+        private Dictionary<string, int> lowNoteValueDic = new Dictionary<string, int>();
 
         private List<SequencerDemo.Note.Note> blackList = new List<SequencerDemo.Note.Note>();
 
@@ -40,8 +42,28 @@ namespace Sanford.Multimedia.Midi.Config
             note.Data = 60;
             dic.Add(note.Data, note);
 
+            #region 高音部的低音
+            location = new NoteLocation() { line = 0, offset = 5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 590;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = -1, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 570;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = -1, offset = 5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 550;
+            dic.Add(note.Data, note);
+            #endregion
+
             #region 高音部
-            location = new NoteLocation() { line = 0, offset = -5, soundType = SoundDepart.Center };
+            location = new NoteLocation() { line = 0, offset = -5, soundType = SoundDepart.High };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 62;
@@ -141,6 +163,38 @@ namespace Sanford.Multimedia.Midi.Config
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 89;
+            dic.Add(note.Data, note);
+            #endregion
+
+            #region 低音部的高音
+            location = new NoteLocation() { line = 6, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 600;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 6, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 620;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 7, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 640;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 7, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 650;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 8, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 670;
             dic.Add(note.Data, note);
             #endregion
 
@@ -468,6 +522,97 @@ namespace Sanford.Multimedia.Midi.Config
             note.Data = -4;
             note.NoteType = SequencerDemo.Note.NoteType.QuaversStop;
             dic.Add(note.Data, note);
+
+            //16分休止符
+            location = new NoteLocation() { line = 3, offset = -3, soundType = SoundDepart.Other };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = -5;
+            note.NoteType = SequencerDemo.Note.NoteType.MinimsStop;
+            dic.Add(note.Data, note);
+
+            //32分休止符
+            location = new NoteLocation() { line = 3, offset = -3, soundType = SoundDepart.Other };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = -6;
+            note.NoteType = SequencerDemo.Note.NoteType.MinimsStop;
+            dic.Add(note.Data, note);
+            #endregion
+
+            #region 高音音值
+            hightNoteValueDic.Add("3G", 550);
+            hightNoteValueDic.Add("3A", 570);
+            hightNoteValueDic.Add("3B", 590);
+            hightNoteValueDic.Add("4C",60);
+            hightNoteValueDic.Add("4D", 62);
+            hightNoteValueDic.Add("4E", 64);
+            hightNoteValueDic.Add("4F", 65);
+            hightNoteValueDic.Add("4G", 67);
+            hightNoteValueDic.Add("4A", 69);
+            hightNoteValueDic.Add("4B", 71);
+            hightNoteValueDic.Add("5C", 72);
+            hightNoteValueDic.Add("5D", 74);
+            hightNoteValueDic.Add("5E", 76);
+            hightNoteValueDic.Add("5F", 77);
+            hightNoteValueDic.Add("5G", 79);
+            hightNoteValueDic.Add("5A", 81);
+            hightNoteValueDic.Add("5B", 83);
+            hightNoteValueDic.Add("6C", 84);
+            hightNoteValueDic.Add("6D", 86);
+            hightNoteValueDic.Add("6E", 88);
+            hightNoteValueDic.Add("6F", 89);
+            hightNoteValueDic.Add("6G", 91);
+            hightNoteValueDic.Add("6A", 93);
+            hightNoteValueDic.Add("6B", 95);
+            hightNoteValueDic.Add("7C", 96);
+            hightNoteValueDic.Add("7D", 98);
+            hightNoteValueDic.Add("7E", 100);
+            hightNoteValueDic.Add("7F", 103);
+            hightNoteValueDic.Add("7G", 105);
+            hightNoteValueDic.Add("7A", 107);
+            hightNoteValueDic.Add("7B", 108);
+            hightNoteValueDic.Add("whole", -1);
+            hightNoteValueDic.Add("half", -2);
+            hightNoteValueDic.Add("quarter", -3);
+            hightNoteValueDic.Add("eighth", -4);
+            hightNoteValueDic.Add("16th", -5);
+            hightNoteValueDic.Add("32nd", -6);
+            #endregion
+
+            #region 低音音值
+            lowNoteValueDic.Add("4C", 600);
+            lowNoteValueDic.Add("4D", 620);
+            lowNoteValueDic.Add("4E", 640);
+            lowNoteValueDic.Add("4F", 650);
+            lowNoteValueDic.Add("4G", 670);
+            lowNoteValueDic.Add("3B", 59);
+            lowNoteValueDic.Add("3A", 57);
+            lowNoteValueDic.Add("3G", 55);
+            lowNoteValueDic.Add("3F", 53);
+            lowNoteValueDic.Add("3E", 52);
+            lowNoteValueDic.Add("3D", 50);
+            lowNoteValueDic.Add("3C", 48);
+            lowNoteValueDic.Add("2B", 47);
+            lowNoteValueDic.Add("2A", 45);
+            lowNoteValueDic.Add("2G", 43);
+            lowNoteValueDic.Add("2F", 41);
+            lowNoteValueDic.Add("2E", 40);
+            lowNoteValueDic.Add("2D", 38);
+            lowNoteValueDic.Add("2C", 36);
+            lowNoteValueDic.Add("1B", 35);
+            lowNoteValueDic.Add("1A", 33);
+            lowNoteValueDic.Add("1G", 31);
+            lowNoteValueDic.Add("1F", 29);
+            lowNoteValueDic.Add("1E", 28);
+            lowNoteValueDic.Add("1D", 26);
+            lowNoteValueDic.Add("1C", 24);
+            lowNoteValueDic.Add("whole", -1);
+            lowNoteValueDic.Add("half", -2);
+            lowNoteValueDic.Add("quarter", -3);
+            lowNoteValueDic.Add("eighth", -4);
+            lowNoteValueDic.Add("16th", -5);
+            lowNoteValueDic.Add("32nd", -6);
             #endregion
         }
         private static NoteScoreTable _instance;
@@ -486,6 +631,27 @@ namespace Sanford.Multimedia.Midi.Config
 
         public SequencerDemo.Note.Note GetNoteLocation(int key)
         {
+            if (dic.ContainsKey(key))
+            {
+                return (SequencerDemo.Note.Note)dic[key].Clone();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public SequencerDemo.Note.Note GetNoteLocation(string defaultY,int staff)
+        {
+            int key = 0;
+            if(staff == 2)
+            {
+                key = this.lowNoteValueDic[defaultY];
+            }
+            else
+            {
+                key = this.hightNoteValueDic[defaultY];
+            }
             if (dic.ContainsKey(key))
             {
                 return (SequencerDemo.Note.Note)dic[key].Clone();

@@ -13,9 +13,13 @@ namespace SequencerDemo.Note
         private Stack<NoteBar> barList =new Stack<NoteBar>();//高音部小节
         private Stack<NoteBar> lowBarList = new Stack<NoteBar>();//低音部小节
         private int fewShot;//一小节有几拍
+        private int oneShot;//分母
         private NoteType oneShotNote;//以什么样的音符为一拍
         private int bitTime;//一拍的时间（单位tick）
         private int headLen;//midi头长
+
+        private List<Measure> measureList = new List<Measure>();//高音部小节
+        private List<Measure> lowMeasureList = new List<Measure>();//低音部小节
 
 
         public string Name
@@ -49,6 +53,18 @@ namespace SequencerDemo.Note
             set
             {
                 this.fewShot = value;
+            }
+        }
+
+        public int OneShot
+        {
+            get
+            {
+                return this.oneShot;
+            }
+            set
+            {
+                this.oneShot = value;
             }
         }
 
@@ -335,6 +351,26 @@ namespace SequencerDemo.Note
                 data2 = (int)StopNoteVal.QuaversStop;
             }
             return data2;
+        }
+
+        public void AddMeasure(Measure measure)
+        {
+            if(measure.LowBlocks.Count > 0)
+            {
+                Measure lowMeasure = new Measure();
+                lowMeasure.Blocks = measure.LowBlocks;
+                this.lowMeasureList.Add(lowMeasure);
+            }
+
+            this.measureList.Add(measure);
+        }
+
+        public List<Measure> MeasureList
+        {
+            get
+            {
+                return this.measureList;
+            }
         }
     }
 }

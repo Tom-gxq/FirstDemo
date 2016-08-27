@@ -409,15 +409,15 @@ namespace SequencerDemo
                             {
                                 foreach(var note in block.Notes)
                                 {
-                                    lastNote = note;
-                                    if ((note.NoteType >= NoteType.AllStop) && (note.NoteType <= NoteType.QuaversStop))
-                                    {
-                                        DrawStopNote(note);
-                                    }
-                                    else
-                                    {
-                                        DrawNote(note);
-                                    }
+                                    //lastNote = note;
+                                    //if ((note.NoteType >= NoteType.AllStop) && (note.NoteType <= NoteType.QuaversStop))
+                                    //{
+                                    //    DrawStopNote(note);
+                                    //}
+                                    //else
+                                    //{
+                                    //    DrawNote(note);
+                                    //}
                                 }
                                 if ((block.Notes.Count > 1)||(lastNote.NoteType >= NoteType.AllStop))
                                 {
@@ -492,7 +492,7 @@ namespace SequencerDemo
                 //»­·ûÍ·
                 switch(note.NoteType)
                 {
-                    case NoteType.Semibreve://È«Òô·û
+                    case NoteType.Whole://È«Òô·û
                         g.DrawEllipse(myPen, pointX, pointY, 6, 7);
                         noteCount += 3;
                         break;
@@ -518,7 +518,7 @@ namespace SequencerDemo
                 }
 
                 //»­·û¸Ë
-                if (note.NoteType != NoteType.Semibreve)
+                if (note.NoteType != NoteType.Whole)
                 {
                     Point p1 = new Point(pointX + 4, pointY);
                     Point p2 = new Point(pointX + 4, pointY - NOTE_TAIL_HEIGHT);
@@ -545,14 +545,14 @@ namespace SequencerDemo
                 }
 
                 //»­Éý½µºÅ
-                if(note.Lift ==  NoteLift.Down)
+                if(note.Lift ==  NoteLift.Flat)
                 {
                     //»­½µºÅ
                     Font font = new Font("ËÎÌå", 11);
                     SolidBrush mysbrush1 = new SolidBrush(Color.Blue);
                     g.DrawString("b", font, mysbrush1, pointX - 10, pointY-5);
                 }
-                else if (note.Lift == NoteLift.Up)
+                else if (note.Lift == NoteLift.Sharp)
                 {
                     //»­ÉýºÅ
                     Font font = new Font("ËÎÌå", 11);
@@ -723,40 +723,40 @@ namespace SequencerDemo
         /// <param name="block"></param>
         private void DrawSymbolBar(SequencerDemo.Note.NoteBlock block)
         {
-            var headNote = block.Notes[0];
-            var tailNote = block.GetLast();
-            this.noteBarCount += 1;
-            Point p1 = GetBarEndPoint(headNote);
-            this.noteBarCount += (block.Notes.Count - 1);
-            Point p2 = GetBarEndPoint(tailNote);
+            //var headNote = block.Notes[0];
+            //var tailNote = block.GetLast();
+            //this.noteBarCount += 1;
+            //Point p1 = GetBarEndPoint(headNote);
+            //this.noteBarCount += (block.Notes.Count - 1);
+            //Point p2 = GetBarEndPoint(tailNote);
         
-            Graphics g = pictureBox1.CreateGraphics();
-            using (Pen myPen = new Pen(Color.Red, 2))
-            {
-                //»­·û¸Ü
-                switch (headNote.NoteType)
-                {
-                    case NoteType.Quavers:
-                        g.DrawLine(myPen, p1, p2);
-                        break;
-                    case NoteType.Demiquaver:
-                        g.DrawLine(myPen, p1, p2);
-                        Point p4 = new Point();
-                        Point p5 = new Point();
-                        if (headNote.CrochetType == CrochetType.Down)
-                        {
-                            p4 = new Point(p1.X, p1.Y - 5);
-                            p5 = new Point(p2.X, p2.Y - 5);
-                        }
-                        else
-                        {
-                            p4 = new Point(p1.X, p1.Y + 5);
-                            p5 = new Point(p2.X, p2.Y + 5);
-                        }
-                        g.DrawLine(myPen, p4, p5);
-                        break;
-                }
-            }
+            //Graphics g = pictureBox1.CreateGraphics();
+            //using (Pen myPen = new Pen(Color.Red, 2))
+            //{
+            //    //»­·û¸Ü
+            //    switch (headNote.NoteType)
+            //    {
+            //        case NoteType.Quavers:
+            //            g.DrawLine(myPen, p1, p2);
+            //            break;
+            //        case NoteType.Demiquaver:
+            //            g.DrawLine(myPen, p1, p2);
+            //            Point p4 = new Point();
+            //            Point p5 = new Point();
+            //            if (headNote.CrochetType == CrochetType.Down)
+            //            {
+            //                p4 = new Point(p1.X, p1.Y - 5);
+            //                p5 = new Point(p2.X, p2.Y - 5);
+            //            }
+            //            else
+            //            {
+            //                p4 = new Point(p1.X, p1.Y + 5);
+            //                p5 = new Point(p2.X, p2.Y + 5);
+            //            }
+            //            g.DrawLine(myPen, p4, p5);
+            //            break;
+            //    }
+            //}
         }
 
         /// <summary>

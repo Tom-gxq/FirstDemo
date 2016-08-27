@@ -6,11 +6,11 @@ namespace SequencerDemo.Note
 {
     public class NoteBlock
     {
-        private List<Note> noteList = new List<Note>();//小节中包含的音符数据
+        private List<NoteGroup> noteList = new List<NoteGroup>();//小节中包含的音符数据
         private long id;//小节Id
         private double maxLine = 0;//离第三条线最远距离，用于确定符杆方向
 
-        public List<Note> Notes
+        public List<NoteGroup> Notes
         {
             get
             {
@@ -47,21 +47,24 @@ namespace SequencerDemo.Note
             get
             {
                 int cnt = 0;
-                foreach(var item in this.noteList)
+                foreach(var group in this.noteList)
                 {
-                    switch(item.NoteType)
+                    foreach (var item in group.Notes)
                     {
-                        case NoteType.Semibreve:
-                        case NoteType.AllStop:
-                            cnt += 4;
-                            break;
-                        case NoteType.Minims:
-                        case NoteType.MinimsStop:
-                            cnt += 2;
-                            break;
-                        default:
-                            cnt++;
-                            break;
+                        switch (item.NoteType)
+                        {
+                            case NoteType.Whole:
+                            case NoteType.AllStop:
+                                cnt += 4;
+                                break;
+                            case NoteType.Minims:
+                            case NoteType.MinimsStop:
+                                cnt += 2;
+                                break;
+                            default:
+                                cnt++;
+                                break;
+                        }
                     }
                 }
                 return cnt;
@@ -73,24 +76,59 @@ namespace SequencerDemo.Note
             get
             {
                 int ticks = 0;
-                this.noteList.ForEach(x => ticks += x.Ticks);
+                foreach (var item in this.noteList)
+                {
+                    item.Notes.ForEach(x => ticks += x.Ticks);
+                }
                 return ticks;
             }
         }
         public void AddNote(Note note)
         {
-            double baseLine = Math.Abs((note.Location.line+(note.Location.offset!=0?0.5:0) ) - 3);
-            var list = this.noteList.FindAll(x => { return (x.NoteType < NoteType.AllStop); });
-            if(list.Count == 0)
+            //double baseLine = Math.Abs((note.Location.line+(note.Location.offset!=0?0.5:0) ) - 3);
+            NoteGroup group = null;
+            foreach (var item in this.noteList)
             {
-                this.maxLine = (note.Location.line + (note.Location.offset != 0 ? 0.5 : 0));
+                //var list = item.Notes.FindAll(x => { return (x.NoteType < NoteType.AllStop); });
+                //if (list.Count == 0)
+                //{
+                //    this.maxLine = (note.Location.line + (note.Location.offset != 0 ? 0.5 : 0));
+                //}
+                //else if (Math.Abs(this.maxLine - 3) < baseLine)
+                //{
+                //    this.maxLine = (note.Location.line + (note.Location.offset != 0 ? 0.5 : 0));
+                //}
+                if (item.DefaultX == note.DefaultX)
+                {
+                    group = item;
+                    break;
+                }
+                //SetSymbolBarDirection();
             }
-            else if(Math.Abs(this.maxLine-3) < baseLine)
+            if (group != null)
             {
-                this.maxLine = (note.Location.line + (note.Location.offset != 0 ? 0.5 : 0));
+                group.AddNote(note);
             }
-            this.noteList.Add(note);
-            SetSymbolBarDirection();
+            else
+            {
+                group = new NoteGroup();
+                this.noteList.Add(group);
+                group.AddNote(note);
+            }
+        }
+
+        public bool IsContianerDefaultX(int defaultX)
+        {
+            NoteGroup obj = null;
+            foreach(var item in this.noteList)
+            {
+                var list  = item.Notes.FindAll(x => x.DefaultX == defaultX);
+                if(list.Count > 0)
+                {
+                    obj = item;
+                }
+            }
+            return obj != null;
         }
 
         protected void SetSymbolBarDirection()
@@ -98,27 +136,26 @@ namespace SequencerDemo.Note
             //大于3,符杆向下
             if(this.maxLine > 3)
             {
-                this.noteList.ForEach(x => x.CrochetType = CrochetType.Down);
+                foreach (var item in this.noteList)
+                {
+                    item.Notes.ForEach(x => x.CrochetType = CrochetType.Down);
+                }
             }
             else
             {
-                this.noteList.ForEach(x => x.CrochetType = CrochetType.Up);
+                foreach (var item in this.noteList)
+                {
+                    item.Notes.ForEach(x => x.CrochetType = CrochetType.Up);
+                }
             }
         }
-        public void RemoveNote(Note note)
-        {
-            this.noteList.Remove(note);
-        }
-        public void RemoveNote(int index)
-        {
-            this.noteList.RemoveAt(index);
-        }
+       
 
-        public Note GetLast()
+        public NoteGroup GetLast()
         {
             if(this.noteList.Count >0)
-            {
-                return this.noteList[(int)this.Count -1];
+            {                
+                return this.noteList[(int)this.Count - 1];
             }
             else
             {
@@ -126,7 +163,7 @@ namespace SequencerDemo.Note
             }
         }
 
-        public Note GetPreLast()
+        public NoteGroup GetPreLast()
         {
             if (this.noteList.Count > 1)
             {
@@ -137,6 +174,8 @@ namespace SequencerDemo.Note
                 return null;
             }
         }
+
+        
 
     }
 }

@@ -10,7 +10,7 @@ namespace SequencerDemo.Note
         /// <summary>
         /// 全音符
         /// </summary>
-        Semibreve = 0,
+        Whole = 0,
         /// <summary>
         /// 二分音符
         /// </summary>
@@ -46,11 +46,20 @@ namespace SequencerDemo.Note
         /// <summary>
         /// 八分休止符
         /// </summary>
-        QuaversStop
+        QuaversStop,
+        /// <summary>
+        /// 十六分休止符
+        /// </summary>
+        DemiquaverStop,
+        /// <summary>
+        /// 三十二休止符
+        /// </summary>
+        DemisemiquaverStop
     }
 
     public enum CrochetType
     {
+        None,
         Up,
         Down
     }
@@ -67,12 +76,19 @@ namespace SequencerDemo.Note
         /// <summary>
         /// 升号
         /// </summary>
-        Up,
+        Sharp,
         /// <summary>
         /// 降号
         /// </summary>
-        Down
+        Flat,
+        /// <summary>
+        /// 还原号
+        /// </summary>
+        Natural
+
     }
+
+    
     /// <summary>
     /// 音符数据
     /// </summary>
@@ -86,6 +102,7 @@ namespace SequencerDemo.Note
         private NoteLocation location;//音符位置
         private int ticks;
         private NoteLift lift = NoteLift.None;
+        Dictionary<string, string> beams = new Dictionary<string, string>();
         public NoteLift Lift
         {
             get
@@ -177,7 +194,26 @@ namespace SequencerDemo.Note
         }
         public object Clone()
         {
-            return this.MemberwiseClone();
+            var obj =  this.MemberwiseClone();
+            ((Note)obj).beams = new Dictionary<string, string>();
+            return obj;
+        }
+
+        public int DefaultX { get; set; }
+        public int DefaultY { get; set; }
+        public int Staff { get; set; }
+
+        public void AddBeam(string number,string content)
+        {
+            this.beams.Add(number, content);
+        }
+
+        public Dictionary<string, string> Beams
+        {
+            get
+            {
+                return this.beams;
+            }
         }
 
     }

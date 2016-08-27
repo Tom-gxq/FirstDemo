@@ -192,9 +192,11 @@
     <Compile Include="MidiNoteConverter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Note\Measure.cs" />
     <Compile Include="Note\Note.cs" />
     <Compile Include="Note\NoteBar.cs" />
     <Compile Include="Note\NoteBlock.cs" />
+    <Compile Include="Note\NoteGroup.cs" />
     <Compile Include="Note\Score.cs" />
     <Compile Include="Processing\ChannelChaser.cs" />
     <Compile Include="Clocks\IClock.cs">
