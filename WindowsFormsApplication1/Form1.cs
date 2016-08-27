@@ -80,6 +80,11 @@ namespace WindowsFormsApplication1
                     {
                         g.DrawLine(myPen, new Point(0, y * LINE_HEIGHT_PER), new Point(ClientRectangle.Width, y * LINE_HEIGHT_PER));
                     }
+                    //高音谱号标识
+                    string str = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                    Image hightImg = Image.FromFile($"{str}\\..\\..\\Pic\\hight.jpg");
+                    Rectangle hightRec = new Rectangle(new Point(0, (alllen - 5) * LINE_HEIGHT_PER),new Size(NOTE_VERTICAL_SPACING, 4* LINE_HEIGHT_PER));
+                    g.DrawImage(hightImg, hightRec);
 
                     tmp = alllen + 4;//高低音中间空4条
                     //低音线
@@ -88,6 +93,11 @@ namespace WindowsFormsApplication1
                     {
                         g.DrawLine(myPen, new Point(0, y * LINE_HEIGHT_PER), new Point(ClientRectangle.Width, y * LINE_HEIGHT_PER));
                     }
+
+                    //低音谱号标识
+                    Image lowImg = Image.FromFile($"{str}\\..\\..\\Pic\\low.jpg");
+                    Rectangle lowRec = new Rectangle(new Point(0, (alllen - 5) * LINE_HEIGHT_PER), new Size(NOTE_VERTICAL_SPACING, 4 * LINE_HEIGHT_PER));
+                    g.DrawImage(lowImg, lowRec);
 
                     g.DrawLine(myPen, new Point(0, start * LINE_HEIGHT_PER), new Point(0, (tmp - 1) * LINE_HEIGHT_PER));
                     g.DrawLine(myPen, new Point(ClientRectangle.Width - 10, start * LINE_HEIGHT_PER), new Point(ClientRectangle.Width - 10, (tmp - 1) * LINE_HEIGHT_PER));
@@ -654,6 +664,26 @@ namespace WindowsFormsApplication1
                     {
                         DrawBar(lastNote, list[i], i);
                     }
+                    noteCount++;//每行的第一个符号是高低音谱号标识
+
+                    if (locationX == 0)
+                    {
+                        var measure = list[i];
+                        int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+                        int pointY = (locationY + 6)* LINE_HEIGHT_PER;
+                        Graphics g = pictureBox1.CreateGraphics();
+                        using (Pen myPen = new Pen(Color.Red, 2))
+                        {
+                            //画乐谱号
+                            Font font = new Font("宋体", 15);
+                            SolidBrush mysbrush1 = new SolidBrush(Color.Red);
+                            g.DrawString(measure.Beats.ToString(), font, mysbrush1, pointX, pointY);
+                            g.DrawString(measure.Beat_Type.ToString(), font, mysbrush1, pointX, pointY + 20);
+                        }
+
+                        noteCount++;////每行的第二个符号是音谱号
+                    }
+
                     if ((list[i] != null) && (list[i].Blocks != null))
                     {
                         for (int j = 0; j < list[i].Blocks.Count; j++)
