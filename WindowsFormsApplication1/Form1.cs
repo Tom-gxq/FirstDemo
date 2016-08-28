@@ -117,21 +117,22 @@ namespace WindowsFormsApplication1
         private const int NOTE_TAIL_HEIGHT = LINE_HEIGHT_PER * 2 + LINE_HEIGHT_PER / 2;//音符尾巴高度
         private bool isRedraw = false;
 
-        private void DrawNote(SequencerDemo.Note.NoteGroup group)
+        private int DrawNote(SequencerDemo.Note.NoteGroup group, int count,int location_Y)
         {
-            noteCount++;
+            count++;
+            int retValue = 1;
             if (group == null)
             {
-                return;
+                return 0;
             }
-            int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+            int pointX = locationX + (noteCount+ count) * NOTE_VERTICAL_SPACING;
             foreach (var note in group.Notes)
             {
                 int pointY = note.Location.line - MESEAR_HEIGHT;
 
                 if (pointY != 0)
                 {
-                    pointY = (-pointY + locationY) * LINE_HEIGHT_PER + note.Location.offset - 4;
+                    pointY = (-pointY + location_Y) * LINE_HEIGHT_PER + note.Location.offset - 4;
                 }                
 
                 Graphics g = pictureBox1.CreateGraphics();
@@ -142,11 +143,11 @@ namespace WindowsFormsApplication1
                     {
                         case NoteType.Whole://全音符
                             g.DrawEllipse(myPen, pointX, pointY, 6, 7);
-                            noteCount += 3;
+                            retValue = 4;
                             break;
                         case NoteType.Minims://二分音符
                             g.DrawEllipse(myPen, pointX, pointY, 6, 6);
-                            noteCount++;
+                            retValue = 2;
                             break;
                         case NoteType.CrotchetsC://四分音符
                         case NoteType.Quavers://八分音符
@@ -218,31 +219,33 @@ namespace WindowsFormsApplication1
 
                 }
             }
+            return retValue;
         }
 
         /// <summary>
         /// 画终止符
         /// </summary>
         /// <param name="note"></param>
-        private void DrawStopNote(SequencerDemo.Note.NoteGroup group)
+        private int DrawStopNote(SequencerDemo.Note.NoteGroup group,int count ,int loaction_Y)
         {
+            int retValue = 0;
             if (group == null)
             {
-                return;
+                return retValue;
             }
             switch (group.NoteType)
             {
                 case NoteType.AllStop://全停止符
                     {
-                        noteCount = 2;
+                        count += 2;
 
-                        int pointY = group.Notes[0].Location.line - TOTAL_LINE;
+                        int pointY = group.Notes[0].Location.line - MESEAR_HEIGHT;
 
                         if (pointY != 0)
                         {
-                            pointY = (-pointY + locationY) * LINE_HEIGHT_PER + group.Notes[0].Location.offset;
+                            pointY = (-pointY + loaction_Y) * LINE_HEIGHT_PER + group.Notes[0].Location.offset;
                         }
-                        int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+                        int pointX = locationX + (noteCount+ count) * NOTE_VERTICAL_SPACING;
 
                         Graphics g = pictureBox1.CreateGraphics();
                         using (Pen myPen = new Pen(Color.Red, 2))
@@ -252,19 +255,19 @@ namespace WindowsFormsApplication1
                             g.DrawLine(myPen, p1, p2);
                         }
 
-                        noteCount = 4;
+                        retValue = 4;
                     }
                     break;
                 case NoteType.MinimsStop://二分停止符
                     {
-                        noteCount++;
-                        int pointY = group.Notes[0].Location.line - TOTAL_LINE;
+                        count++;
+                        int pointY = group.Notes[0].Location.line - MESEAR_HEIGHT;
 
                         if (pointY != 0)
                         {
-                            pointY = (-pointY + locationY) * LINE_HEIGHT_PER + group.Notes[0].Location.offset;
+                            pointY = (-pointY + loaction_Y) * LINE_HEIGHT_PER + group.Notes[0].Location.offset;
                         }
-                        int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+                        int pointX = locationX + (noteCount + count) * NOTE_VERTICAL_SPACING;
 
                         Graphics g = pictureBox1.CreateGraphics();
                         using (Pen myPen = new Pen(Color.Red, 2))
@@ -273,58 +276,42 @@ namespace WindowsFormsApplication1
                             Point p2 = new Point(pointX + 10, pointY);
                             g.DrawLine(myPen, p1, p2);
                         }
-                        noteCount++;
+                        retValue = 2 ;
                     }
                     break;
                 case NoteType.CrotchetsCStop://四分停止符
                     {
-                        noteCount++;
-                        int pointY = 4 - TOTAL_LINE;
+                        count++;
+                        int pointY = 4 - MESEAR_HEIGHT;
 
                         if (pointY != 0)
                         {
-                            pointY = (-pointY + locationY) * LINE_HEIGHT_PER;
+                            pointY = (-pointY + loaction_Y) * LINE_HEIGHT_PER;
                         }
-                        int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+                        int pointX = locationX + (noteCount + count) * NOTE_VERTICAL_SPACING;
 
 
                         Graphics g = pictureBox1.CreateGraphics();
                         using (Pen myPen = new Pen(Color.Red, 2))
                         {
-                            Point p1 = new Point(pointX, pointY);
-                            Point p2 = new Point(pointX + 10, pointY + 3);
-                            g.DrawLine(myPen, p1, p2);
-
-                            RectangleF oval = new RectangleF((float)pointX, pointY + 3, 10, 10);
-                            g.DrawArc(myPen, oval, 180, 150);
-
-
-                            pointY = 3 - TOTAL_LINE;
-                            if (pointY != 0)
-                            {
-                                pointY = (-pointY + locationY) * LINE_HEIGHT_PER;
-                            }
-                            pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
-
-                            oval = new RectangleF((float)pointX - 5, pointY, 10, 10);
-                            g.DrawArc(myPen, oval, -90, 300);
-
-                            p1 = new Point(pointX - 5, pointY + 5);
-                            p2 = new Point(pointX + 5, pointY + LINE_HEIGHT_PER);
-                            g.DrawLine(myPen, p1, p2);
+                            string str = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                            Image hightImg = Image.FromFile($"{str}\\..\\..\\Pic\\4stop.jpg");
+                            Rectangle hightRec = new Rectangle(new Point(pointX, pointY), new Size(NOTE_VERTICAL_SPACING, 2 * LINE_HEIGHT_PER));
+                            g.DrawImage(hightImg, hightRec);
                         }
+                        retValue = 1 ;
                     }
                     break;
                 case NoteType.QuaversStop://八分停止符
                     {
-                        noteCount++;
-                        int pointY = 3 - TOTAL_LINE;
+                        count++;
+                        int pointY = 3 - MESEAR_HEIGHT;
 
                         if (pointY != 0)
                         {
-                            pointY = (-pointY + locationY) * LINE_HEIGHT_PER - 5;
+                            pointY = (-pointY + loaction_Y) * LINE_HEIGHT_PER - 5;
                         }
-                        int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+                        int pointX = locationX + (noteCount + count) * NOTE_VERTICAL_SPACING;
 
                         Graphics g = pictureBox1.CreateGraphics();
                         using (Pen myPen = new Pen(Color.Red, 2))
@@ -338,10 +325,12 @@ namespace WindowsFormsApplication1
                             Point p2 = new Point(pointX + 4, pointY + 15);
                             g.DrawLine(myPen, p1, p2);
                         }
+                        retValue = 1 ;
                     }
                     break;
 
             }
+            return retValue;
 
         }
 
@@ -350,7 +339,7 @@ namespace WindowsFormsApplication1
         /// </summary>
         /// <param name="note"></param>
         /// <returns></returns>
-        private Point GetBarEndPoint(SequencerDemo.Note.NoteGroup note,int count)
+        private Point GetBarEndPoint(SequencerDemo.Note.NoteGroup note,int count,int location_Y)
         {
             if (note == null)
             {
@@ -360,7 +349,7 @@ namespace WindowsFormsApplication1
 
             if (pointY != 0)
             {
-                pointY = (-pointY + locationY) * LINE_HEIGHT_PER + note.Location.offset - 4;
+                pointY = (-pointY + location_Y) * LINE_HEIGHT_PER + note.Location.offset - 4;
             }
             int pointX = locationX + count * NOTE_VERTICAL_SPACING;
 
@@ -376,13 +365,13 @@ namespace WindowsFormsApplication1
         /// 画block的符杠
         /// </summary>
         /// <param name="block"></param>
-        private void DrawSymbolBar(SequencerDemo.Note.NoteBlock block)
+        private void DrawSymbolBar(SequencerDemo.Note.NoteBlock block, int noteCount, int location_Y)
         {
             var headNote = block.Notes[0];
             var tailNote = block.GetLast();
-            var count = this.noteCount - block.Notes.Count()+1;            
-            Point p1 = GetBarEndPoint(headNote, count);
-            Point p2 = GetBarEndPoint(tailNote, this.noteCount);
+            var headCount = noteCount - block.Notes.Count()+1;            
+            Point p1 = GetBarEndPoint(headNote, headCount, location_Y);
+            Point p2 = GetBarEndPoint(tailNote, noteCount, location_Y);
 
             Graphics g = pictureBox1.CreateGraphics();
             using (Pen myPen = new Pen(Color.Red, 2))
@@ -442,7 +431,7 @@ namespace WindowsFormsApplication1
         /// 画音符的符尾
         /// </summary>
         /// <param name="block"></param>
-        private void DrawSymbolNote(SequencerDemo.Note.NoteGroup group)
+        private void DrawSymbolNote(SequencerDemo.Note.NoteGroup group, int noteCount, int location_Y)
         {
             if (group == null)
             {
@@ -452,7 +441,7 @@ namespace WindowsFormsApplication1
 
             if (pointY != 0)
             {
-                pointY = (-pointY + locationY) * LINE_HEIGHT_PER + group.Location.offset - 4;
+                pointY = (-pointY + location_Y) * LINE_HEIGHT_PER + group.Location.offset - 4;
             }
             int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
 
@@ -483,7 +472,7 @@ namespace WindowsFormsApplication1
                     case NoteType.Demiquaver:
                         p1 = new Point(p.X + 8, p.Y);
                         g.DrawLine(myPen, p, p1);
-                        p2 = new Point(p.X, p.Y + 4);
+                        p2 = new Point(p.X, p.Y - 4);
                         p3 = new Point(p2.X + 8, p2.Y);
                         g.DrawLine(myPen, p2, p3);
                         break;
@@ -491,10 +480,10 @@ namespace WindowsFormsApplication1
                     case NoteType.Demisemiquaver:
                         p1 = new Point(p.X + 8, p.Y);
                         g.DrawLine(myPen, p, p1);
-                        p2 = new Point(p.X, p.Y + 4);
+                        p2 = new Point(p.X, p.Y - 4);
                         p3 = new Point(p2.X + 8, p2.Y);
                         g.DrawLine(myPen, p2, p3);
-                        p4 = new Point(p2.X, p2.Y + 4);
+                        p4 = new Point(p2.X, p2.Y - 4);
                         p5 = new Point(p4.X + 8, p4.Y);
                         g.DrawLine(myPen, p4, p5);
                         break;
@@ -506,14 +495,14 @@ namespace WindowsFormsApplication1
         /// 画小节线
         /// </summary>
         /// <param name="note"></param>
-        private void DrawBar(SequencerDemo.Note.NoteGroup group, Measure bar,int i)
+        private void DrawBar(SequencerDemo.Note.NoteGroup group, Measure bar,int count)
         {
             if (group == null)
             {
                 return;
             }
             long barWidth = bar.NoteNum * NOTE_VERTICAL_SPACING;
-            int overWidth = this.pictureBox1.Width - (noteCount + this.barCount + 1) * NOTE_VERTICAL_SPACING;
+            int overWidth = this.pictureBox1.Width - (count + this.barCount + 1) * NOTE_VERTICAL_SPACING;
             if ((overWidth < 0) || (overWidth / barWidth <= 0))
             {
                 locationY += TOTAL_LINE;
@@ -522,7 +511,7 @@ namespace WindowsFormsApplication1
             }
             else
             {
-                int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+                int pointX = locationX + count * NOTE_VERTICAL_SPACING;
 
                 //画小节线
                 Graphics g = pictureBox1.CreateGraphics();
@@ -538,7 +527,12 @@ namespace WindowsFormsApplication1
 
         }
 
-        private void DrawBarLine(Measure bar)
+        /// <summary>
+        /// 画重复线
+        /// </summary>
+        /// <param name="bar"></param>
+        /// <param name="noteCount"></param>
+        private void DrawBarLine(Measure bar,int noteCount)
         {
             if(bar.BarLine > BarLineType.None)
             {
@@ -547,7 +541,7 @@ namespace WindowsFormsApplication1
                 int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
 
                 Graphics g = pictureBox1.CreateGraphics();
-                Point pp1 = new Point(pointX + NOTE_VERTICAL_SPACING, (locationY+6 )  * LINE_HEIGHT_PER);
+                Point pp1 = new Point(pointX + NOTE_VERTICAL_SPACING, (locationY + 6 )  * LINE_HEIGHT_PER);
                 Point pp2 = new Point(pointX + NOTE_VERTICAL_SPACING, (locationY + 15) * LINE_HEIGHT_PER + 5 * LINE_HEIGHT_PER);
 
                 
@@ -653,6 +647,8 @@ namespace WindowsFormsApplication1
             this.labName.Text = this.score.Name;
             this.labAuthor.Text = this.score.Author;
             var list = this.score.MeasureList;
+            int hightCount = 0;
+            int lowCount = 0;
 
             if (list != null)
             {
@@ -662,14 +658,20 @@ namespace WindowsFormsApplication1
                 {
                     if (i >= 0)
                     {
-                        DrawBar(lastNote, list[i], i);
+                        DrawBar(lastNote, list[i], this.noteCount+Math.Max(lowCount, hightCount));
+                        if(this.locationX == 0)
+                        {
+                            hightCount = 0;
+                            lowCount = 0;
+                        }
                     }
-                    noteCount++;//每行的第一个符号是高低音谱号标识
+                    hightCount++;//每行的第一个符号是高低音谱号标识
+                    lowCount++;
 
                     if (locationX == 0)
                     {
                         var measure = list[i];
-                        int pointX = locationX + noteCount * NOTE_VERTICAL_SPACING;
+                        int pointX = locationX + (this.noteCount + Math.Max(lowCount, hightCount)) * NOTE_VERTICAL_SPACING;
                         int pointY = (locationY + 6)* LINE_HEIGHT_PER;
                         Graphics g = pictureBox1.CreateGraphics();
                         using (Pen myPen = new Pen(Color.Red, 2))
@@ -681,46 +683,89 @@ namespace WindowsFormsApplication1
                             g.DrawString(measure.Beat_Type.ToString(), font, mysbrush1, pointX, pointY + 20);
                         }
 
-                        noteCount++;////每行的第二个符号是音谱号
+                        hightCount++;////每行的第二个符号是音谱号
+                        lowCount++;
                     }
 
-                    if ((list[i] != null) && (list[i].Blocks != null))
-                    {
-                        for (int j = 0; j < list[i].Blocks.Count; j++)
+                    if (list[i] != null)
+                    {                        
+                        if (list[i].Blocks != null)
                         {
-                            var block = list[i].Blocks[j];
-                            if ((block != null) && (block.Notes != null))
+                            //高音部描画
+                            for (int j = 0; j < list[i].Blocks.Count; j++)
                             {
-                                foreach (var group in block.Notes)
+                                var block = list[i].Blocks[j];
+                                if ((block != null) && (block.Notes != null))
                                 {
-                                    lastNote = group;
-                                    if ((group.NoteType >= NoteType.AllStop) && (group.NoteType <= NoteType.QuaversStop))
+                                    foreach (var group in block.Notes)
                                     {
-                                        DrawStopNote(group);
+                                        lastNote = group;
+                                        if ((group.NoteType >= NoteType.AllStop) && (group.NoteType <= NoteType.QuaversStop))
+                                        {
+                                            hightCount += DrawStopNote(group, hightCount,this.locationY);
+                                        }
+                                        else
+                                        {
+                                            hightCount += DrawNote(group, hightCount, this.locationY);
+                                        }
+                                    }
+                                    if ((block.Notes.Count > 1) || (lastNote.NoteType >= NoteType.AllStop))
+                                    {
+                                        //多个音符画符杠
+                                        DrawSymbolBar(block,this.noteCount+ hightCount, this.locationY);
                                     }
                                     else
                                     {
-                                        DrawNote(group);
+                                        //单个音符画符尾
+                                        DrawSymbolNote(lastNote, this.noteCount + hightCount, this.locationY);
                                     }
                                 }
-                                if ((block.Notes.Count > 1) || (lastNote.NoteType >= NoteType.AllStop))
+
+                            }
+                        }
+                        
+                        if (list[i].LowBlocks != null)
+                        {
+                            //低音部描画
+                            for (int j = 0; j < list[i].LowBlocks.Count; j++)
+                            {
+                                var block = list[i].LowBlocks[j];
+                                if ((block != null) && (block.Notes != null))
                                 {
-                                    //多个音符画符杠
-                                    DrawSymbolBar(block);
-                                }
-                                else
-                                {
-                                    //单个音符画符尾
-                                    DrawSymbolNote(lastNote);
+                                    foreach (var group in block.Notes)
+                                    {
+                                        lastNote = group;
+                                        if ((group.NoteType >= NoteType.AllStop) && (group.NoteType <= NoteType.QuaversStop))
+                                        {
+                                            lowCount += DrawStopNote(group, lowCount,this.locationY+9);
+                                        }
+                                        else
+                                        {
+                                            lowCount += DrawNote(group, lowCount, this.locationY+9);
+                                        }
+                                    }
+                                    if ((block.Notes.Count > 1) || (lastNote.NoteType >= NoteType.AllStop))
+                                    {
+                                        //多个音符画符杠
+                                        DrawSymbolBar(block, this.noteCount + lowCount, this.locationY+9);
+                                    }
+                                    else
+                                    {
+                                        //单个音符画符尾
+                                        DrawSymbolNote(lastNote, this.noteCount + lowCount, this.locationY + 9);
+                                    }
                                 }
                             }
-
                         }
-
                     }
-                    DrawBarLine(list[i]);
+                    int count = Math.Max(lowCount, hightCount);
+                    DrawBarLine(list[i],this.noteCount+count);
                     this.barCount++;
+                    this.noteCount += Math.Max(lowCount, hightCount);
+                    hightCount = 0;
+                    lowCount = 0;
                 }
+                
             }
         }
     }

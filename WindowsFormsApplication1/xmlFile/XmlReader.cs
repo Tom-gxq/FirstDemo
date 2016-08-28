@@ -206,6 +206,17 @@ namespace WindowsFormsApplication1.xmlFile
                     note.Staff = staff;
 
 
+                    XmlNode voiceNode = noteItem.SelectSingleNode("voice");
+                    if (voiceNode != null)
+                    {
+                        string voice = voiceNode.InnerText;
+                        if (string.IsNullOrEmpty(voice))
+                        {
+                            note.Voice = int.Parse(voice);
+                        }
+                    }
+
+
                     XmlNode accidentalNode = noteItem.SelectSingleNode("accidental");
                     if(accidentalNode != null)
                     {

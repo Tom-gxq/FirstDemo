@@ -216,5 +216,26 @@ namespace SequencerDemo.Note
             }
         }
 
+        private int voice;
+        public int Voice
+        {
+            get
+            {
+                return this.voice;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    this.voice = 1;
+                }
+                else
+                {
+                    this.voice = value;
+                }
+            }
+
+        }
+
     }
 }

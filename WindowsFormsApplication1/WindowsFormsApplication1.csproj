@@ -87,6 +87,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pic\4stop.jpg" />
     <Content Include="Pic\hight.jpg" />
     <Content Include="Pic\low.jpg" />
   </ItemGroup>
