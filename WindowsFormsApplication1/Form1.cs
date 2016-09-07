@@ -768,5 +768,32 @@ namespace WindowsFormsApplication1
                 
             }
         }
+
+        private void panel_scroll(object sender, ScrollEventArgs e)
+        {
+            this.pictureBox1.Invalidate();
+            this.pictureBox1.Refresh();            
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            if (this.isRedraw)
+            {
+                locationX = 0;//音符x坐标基准点
+                locationY = 0;//音符y坐标基准点
+                noteCount = 0;//每行音符数
+                barCount = 0;//小节数
+                DrawScore();
+            }
+            else
+            {
+                DrawNoteLine();
+            }
+        }
     }
 }

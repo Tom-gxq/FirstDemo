@@ -76,15 +76,17 @@ namespace SequencerDemo.Note
 
         public void AddNote(Note note)
         {
-            if (this.Notes.Count > 0)
-            {
-                var firstNote = this.Notes[0];
-                if (note.CrochetType != firstNote.CrochetType)
-                {
-                    note.CrochetType = firstNote.CrochetType;
-                }
-            }
+            //if (this.Notes.Count > 0)
+            //{
+            //    var firstNote = this.Notes[0];
+            //    if (note.CrochetType != firstNote.CrochetType)
+            //    {
+            //        note.CrochetType = firstNote.CrochetType;
+            //    }
+            //}
             this.Notes.Add(note);
         }
+
+        
     }
 }

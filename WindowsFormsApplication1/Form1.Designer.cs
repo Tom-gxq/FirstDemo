@@ -38,8 +38,10 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.labAuthor = new System.Windows.Forms.Label();
             this.labName = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -55,12 +57,13 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 93);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1315, 599);
+            this.pictureBox1.Size = new System.Drawing.Size(1326, 5050);
             this.pictureBox1.TabIndex = 9;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // menuStrip1
             // 
@@ -123,21 +126,33 @@
             this.labName.TabIndex = 12;
             this.labName.Text = "label1";
             // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Location = new System.Drawing.Point(0, 93);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1344, 612);
+            this.panel1.TabIndex = 14;
+            this.panel1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.panel_scroll);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 704);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.labAuthor);
             this.Controls.Add(this.labName);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,6 +170,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label labAuthor;
         private System.Windows.Forms.Label labName;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

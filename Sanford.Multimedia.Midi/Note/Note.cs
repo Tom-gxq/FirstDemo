@@ -237,5 +237,7 @@ namespace SequencerDemo.Note
 
         }
 
+        public int Octave { get; set; }
+
     }
 }

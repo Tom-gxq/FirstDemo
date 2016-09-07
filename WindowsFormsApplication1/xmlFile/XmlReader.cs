@@ -100,11 +100,18 @@ namespace WindowsFormsApplication1.xmlFile
             XmlNode title = root.SelectSingleNode("//work/work-title");
             this.score.Name = title.InnerText;
             XmlNodeList measureList = root.SelectNodes("//part/measure");
+            int measureIndex = 0;
             foreach(XmlNode item in measureList)
             {
+                measureIndex++;
+                if(measureIndex == 93)
+                {
+                    int i = 0;
+                    i++;
+                }
                 Measure measure = new Measure();
                 TreatAttributesNode(item,measure);
-                TreatNoteNode(item, measure);
+                TreatNoteNode(item, measure, measureIndex);
                 TreatBarlineNode(item, measure);
                 this.score.AddMeasure(measure);
             }
@@ -137,13 +144,15 @@ namespace WindowsFormsApplication1.xmlFile
             }
         }
 
-        private void TreatNoteNode(XmlNode item, Measure measure)
+        private void TreatNoteNode(XmlNode item, Measure measure,int mearsureIndex)
         { 
             XmlNodeList noteList = item.SelectNodes("note");
             if(noteList != null)
             {
+                int index = 0;
                 foreach (XmlNode noteItem in noteList)
                 {
+                    index++;
                     int staff = 0;
                     XmlNode staffNode = noteItem.SelectSingleNode("staff");
                     if (staffNode != null)
@@ -181,10 +190,19 @@ namespace WindowsFormsApplication1.xmlFile
                         }
                         key = $"{octave}{step}";
                     }
-                    
 
 
-                    Note note =  NoteScoreTable.Instance.GetNoteLocation(key, staff);
+
+                    Note note = null;
+                    try
+                    { 
+
+                         note = NoteScoreTable.Instance.GetNoteLocation(key, staff);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception($"note :{index} key :{key}  staff :{ staff}  measureNum :{mearsureIndex}");
+                    }
                     if (noteItem.Attributes["default-x"] != null)
                     {
                         string defaultX = noteItem.Attributes["default-x"].InnerText;

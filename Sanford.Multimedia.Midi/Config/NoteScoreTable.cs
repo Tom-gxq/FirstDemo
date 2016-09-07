@@ -43,6 +43,113 @@ namespace Sanford.Multimedia.Midi.Config
             dic.Add(note.Data, note);
 
             #region 高音部的低音
+            location = new NoteLocation() { line = 0, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 290;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 1, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 310;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = -2, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 330;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = -1, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 350;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = -1, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 360;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = -1, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 380;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 0, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 400;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 0, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 410;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 1, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 430;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 1, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 450;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 2, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 470;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);            
+
+            location = new NoteLocation() { line = 2, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 480;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 3, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 500;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+            
+            location = new NoteLocation() { line = 3, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 520;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 4, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 530;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
             location = new NoteLocation() { line = 0, offset = 5, soundType = SoundDepart.High };
             note = new SequencerDemo.Note.Note();
             note.Location = location;
@@ -164,6 +271,83 @@ namespace Sanford.Multimedia.Midi.Config
             note.Location = location;
             note.Data = 89;
             dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 5, offset = -5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 91;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 6, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 93;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 6, offset = -5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 95;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 7, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 96;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 7, offset = -5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 98;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 8, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 100;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 8, offset = -5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 101;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 5, offset = -5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 103;
+            note.Octave = 2;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 6, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 105;
+            note.Octave = 2;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 6, offset = -5, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 107;
+            note.Octave = 2;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 7, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 108;
+            note.Octave = 2;
+            dic.Add(note.Data, note);
             #endregion
 
             #region 低音部的高音
@@ -196,6 +380,114 @@ namespace Sanford.Multimedia.Midi.Config
             note.Location = location;
             note.Data = 670;
             dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 2, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 690;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 3, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 710;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 3, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 720;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 4, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 740;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 4, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 760;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 5, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 770;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 5, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 790;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 6, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 810;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 6, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 830;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 7, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 840;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 7, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 860;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 8, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 880;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 8, offset = 5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 890;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 5, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 910;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 6, offset = 0, soundType = SoundDepart.High };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 930;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 6, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 950;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            location = new NoteLocation() { line = 7, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 980;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+
+            
             #endregion
 
             #region 低音部
@@ -308,6 +600,62 @@ namespace Sanford.Multimedia.Midi.Config
             note = new SequencerDemo.Note.Note();
             note.Location = location;
             note.Data = 33;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 1, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 31;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 0, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 29;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = 0, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 28;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = -1, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 26;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = -1, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 24;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = -2, offset = -5, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 23;
+            note.Octave = 1;
+            dic.Add(note.Data, note);
+            lowkList.Add(note);
+
+            location = new NoteLocation() { line = -2, offset = 0, soundType = SoundDepart.Slow };
+            note = new SequencerDemo.Note.Note();
+            note.Location = location;
+            note.Data = 21;
+            note.Octave = 1;
             dic.Add(note.Data, note);
             lowkList.Add(note);
             #endregion
@@ -540,10 +888,26 @@ namespace Sanford.Multimedia.Midi.Config
             dic.Add(note.Data, note);
             #endregion
 
-            #region 高音音值
+            #region 高音音值    
+            hightNoteValueDic.Add("1F", 290);
+            hightNoteValueDic.Add("1G", 310);
+            hightNoteValueDic.Add("1A", 330);
+            hightNoteValueDic.Add("1B", 350);
+            hightNoteValueDic.Add("2C", 360);
+            hightNoteValueDic.Add("2D", 380);
+            hightNoteValueDic.Add("2E", 400);
+            hightNoteValueDic.Add("2F", 410);
+            hightNoteValueDic.Add("2G", 430);
+            hightNoteValueDic.Add("2A", 450);
+            hightNoteValueDic.Add("2B", 470);
+            hightNoteValueDic.Add("3C", 480);
+            hightNoteValueDic.Add("3D", 500);
+            hightNoteValueDic.Add("3E", 520);
+            hightNoteValueDic.Add("3F", 530);
             hightNoteValueDic.Add("3G", 550);
             hightNoteValueDic.Add("3A", 570);
             hightNoteValueDic.Add("3B", 590);
+
             hightNoteValueDic.Add("4C",60);
             hightNoteValueDic.Add("4D", 62);
             hightNoteValueDic.Add("4E", 64);
@@ -586,6 +950,24 @@ namespace Sanford.Multimedia.Midi.Config
             lowNoteValueDic.Add("4E", 640);
             lowNoteValueDic.Add("4F", 650);
             lowNoteValueDic.Add("4G", 670);
+            lowNoteValueDic.Add("4A", 690);
+            lowNoteValueDic.Add("4B", 710);
+            lowNoteValueDic.Add("5C", 720);
+            lowNoteValueDic.Add("5D", 740);
+            lowNoteValueDic.Add("5E", 760);
+            lowNoteValueDic.Add("5F", 770);
+            lowNoteValueDic.Add("5G", 790);
+            lowNoteValueDic.Add("5A", 810);
+            lowNoteValueDic.Add("5B", 830);
+            lowNoteValueDic.Add("6C", 840);
+            lowNoteValueDic.Add("6D", 860);
+            lowNoteValueDic.Add("6E", 880);
+            lowNoteValueDic.Add("6F", 890);
+            lowNoteValueDic.Add("6G", 910);
+            lowNoteValueDic.Add("6A", 930);
+            lowNoteValueDic.Add("6B", 950);
+            lowNoteValueDic.Add("7D", 980);
+
             lowNoteValueDic.Add("3B", 59);
             lowNoteValueDic.Add("3A", 57);
             lowNoteValueDic.Add("3G", 55);

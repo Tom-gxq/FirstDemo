@@ -69,6 +69,7 @@ namespace SequencerDemo.Note
         {
             get
             {
+                this.blockList.Sort();
                 return this.blockList;
             }
             set
@@ -84,6 +85,7 @@ namespace SequencerDemo.Note
         {
             get
             {
+                this.lowBlockList.Sort();
                 return this.lowBlockList;
             }
             set
@@ -109,15 +111,16 @@ namespace SequencerDemo.Note
 
         public void AddNote(SequencerDemo.Note.Note note)
         {
+            NoteBlock lastBlock = null;
             if (note.Staff == 1)
             {
-                NoteBlock lastBlock = null;
+                //高音部音符判断
                 if ((this.blockList.Count == 0) || (note.Beams.Count == 0))
                 {
                     if (this.blockList.Count > 0)
                     {
-                        lastBlock = this.blockList[this.blockList.Count - 1];
-                        if (lastBlock.IsContianerDefaultX(note.DefaultX))
+                        lastBlock = GetBlockByDefaultX(this.blockList, note.DefaultX);
+                        if (lastBlock != null && lastBlock.IsContianerDefaultX(note.DefaultX))
                         {
                             lastBlock.AddNote(note);
                         }
@@ -153,16 +156,33 @@ namespace SequencerDemo.Note
             }
             else
             {
+                //低音部音符判断
                 if ((this.lowBlockList.Count == 0) || (note.Beams.Count == 0))
                 {
-                    NoteBlock block = new NoteBlock();
-                    block.AddNote(note);
-                    this.lowBlockList.Add(block);
+                    if (this.lowBlockList.Count > 0)
+                    {
+                        lastBlock = GetBlockByDefaultX(this.lowBlockList, note.DefaultX);
+                        if (lastBlock != null && lastBlock.IsContianerDefaultX(note.DefaultX))
+                        {
+                            lastBlock.AddNote(note);
+                        }
+                        else
+                        {
+                            NoteBlock block = new NoteBlock();
+                            block.AddNote(note);
+                            this.lowBlockList.Add(block);
+                        }
+                    }
+                    else
+                    {
+                        NoteBlock block = new NoteBlock();
+                        block.AddNote(note);
+                        this.lowBlockList.Add(block);
+                    }
                 }
                 else
                 {
                     var beamFlag = note.Beams["1"];
-                    NoteBlock lastBlock = null;
                     if (beamFlag == "begin")
                     {
                         lastBlock = new NoteBlock();
@@ -178,7 +198,27 @@ namespace SequencerDemo.Note
         }
 
         
-
+        public NoteBlock GetBlockByDefaultX(List<NoteBlock> list ,int defaultX)
+        {
+            NoteBlock obj = null;
+            foreach (var block in list)
+            {
+                foreach (var item in block.Notes)
+                {
+                    var groupList = item.Notes.FindAll(x => x.DefaultX == defaultX);
+                    if (groupList.Count > 0)
+                    {
+                        obj = block;
+                        break;
+                    }
+                }
+                if(obj != null)
+                {
+                    break;
+                }
+            }
+            return obj;
+        }
         public long NoteNum
         {
             get

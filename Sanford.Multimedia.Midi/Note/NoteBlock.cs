@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SequencerDemo.Note
 {
-    public class NoteBlock
+    public class NoteBlock : IComparable
     {
         private List<NoteGroup> noteList = new List<NoteGroup>();//小节中包含的音符数据
         private long id;//小节Id
@@ -175,7 +175,40 @@ namespace SequencerDemo.Note
             }
         }
 
-        
+        public int CompareTo(object obj)
+        {
+            int res = 0;
+            try
+            {
+                if(obj == null)
+                {
+                    return 1;
+                }
+                NoteBlock sObj = (NoteBlock)obj;
+                if ((this.Notes == null)||(this.Notes.Count <= 0)|| this.Notes[0] == null)
+                {
+                    return -1;
+                }
+                if ((sObj.Notes == null) || (sObj.Notes.Count <= 0) || sObj.Notes[0] == null)
+                {
+                    return 1;
+                }
+                
+                if (this.Notes[0].DefaultX > sObj.Notes[0].DefaultX)
+                {
+                    res = 1;
+                }
+                else if (this.Notes[0].DefaultX < sObj.Notes[0].DefaultX)
+                {
+                    res = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("比较异常", ex.InnerException);
+            }
+            return res;
+        }
 
     }
 }
