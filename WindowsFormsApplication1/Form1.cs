@@ -118,14 +118,14 @@ namespace WindowsFormsApplication1
         private bool isRedraw = false;
 
         private int DrawNote(SequencerDemo.Note.NoteGroup group, int count,int location_Y)
-        {
-            count++;
+        {            
             int retValue = 1;
             if (group == null)
             {
                 return 0;
             }
-            int pointX = locationX + (noteCount+ count) * NOTE_VERTICAL_SPACING;
+            count++;
+            int pointX = locationX + (this.noteCount+ count) * NOTE_VERTICAL_SPACING;
             foreach (var note in group.Notes)
             {
                 int pointY = note.Location.line - MESEAR_HEIGHT;
@@ -732,27 +732,39 @@ namespace WindowsFormsApplication1
                                 var block = list[i].LowBlocks[j];
                                 if ((block != null) && (block.Notes != null))
                                 {
+                                    int noteCnt = 0;
                                     foreach (var group in block.Notes)
                                     {
                                         lastNote = group;
                                         if ((group.NoteType >= NoteType.AllStop) && (group.NoteType <= NoteType.QuaversStop))
                                         {
-                                            lowCount += DrawStopNote(group, lowCount,this.locationY+9);
+                                            noteCnt += DrawStopNote(group, lowCount+ noteCnt, this.locationY+9);
                                         }
                                         else
                                         {
-                                            lowCount += DrawNote(group, lowCount, this.locationY+9);
+                                            noteCnt += DrawNote(group, lowCount+ noteCnt, this.locationY+9);
                                         }
                                     }
+                                    
                                     if ((block.Notes.Count > 1) || (lastNote.NoteType >= NoteType.AllStop))
                                     {
                                         //多个音符画符杠
-                                        DrawSymbolBar(block, this.noteCount + lowCount, this.locationY+9);
+                                        DrawSymbolBar(block, this.noteCount + lowCount + noteCnt, this.locationY+9);
                                     }
                                     else
                                     {
                                         //单个音符画符尾
-                                        DrawSymbolNote(lastNote, this.noteCount + lowCount, this.locationY + 9);
+                                        DrawSymbolNote(lastNote, this.noteCount + lowCount + noteCnt, this.locationY + 9);
+                                    }
+
+                                    //判断高音部和低音部的block中哪个音符多
+                                    if (list[i].Blocks.Count() > j)
+                                    {
+                                        var hightBlock = list[i].Blocks[j];
+                                        if (hightBlock != null)
+                                        {
+                                            lowCount += (int)Math.Max(block.NoteCount, hightBlock.NoteCount);
+                                        }
                                     }
                                 }
                             }
@@ -761,7 +773,7 @@ namespace WindowsFormsApplication1
                     int count = Math.Max(lowCount, hightCount);
                     DrawBarLine(list[i],this.noteCount+count);
                     this.barCount++;
-                    this.noteCount += Math.Max(lowCount, hightCount);
+                    this.noteCount += count;
                     hightCount = 0;
                     lowCount = 0;
                 }
