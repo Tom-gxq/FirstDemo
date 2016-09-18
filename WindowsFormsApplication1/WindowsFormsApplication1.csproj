@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MongoDB.Driver, Version=2.2.3.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.2.3\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -67,6 +71,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,6 +86,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mongo.Business\Mongo.Business.csproj">
+      <Project>{fae8eef6-4324-4bf5-8824-9e295bfe1710}</Project>
+      <Name>Mongo.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sanford.Multimedia.Midi\Sanford.Multimedia.Midi.csproj">
       <Project>{4269c72a-8d3a-4737-8f89-72eaa33ea9e1}</Project>
       <Name>Sanford.Multimedia.Midi</Name>

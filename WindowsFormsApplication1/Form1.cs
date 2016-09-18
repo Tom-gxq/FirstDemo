@@ -1,4 +1,5 @@
-﻿using Sanford.Multimedia.Midi.Config;
+﻿using Mongo.Business;
+using Sanford.Multimedia.Midi.Config;
 using SequencerDemo.Note;
 using System;
 using System.Collections.Generic;
@@ -806,6 +807,11 @@ namespace WindowsFormsApplication1
             {
                 DrawNoteLine();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MusicScoreBusiness.AddMusicScore(this.score);
         }
     }
 }
