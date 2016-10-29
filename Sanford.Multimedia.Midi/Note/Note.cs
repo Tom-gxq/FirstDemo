@@ -103,6 +103,7 @@ namespace SequencerDemo.Note
         private int ticks;
         private NoteLift lift = NoteLift.None;
         Dictionary<string, string> beams = new Dictionary<string, string>();
+        public string NID { get; set; }
         public NoteLift Lift
         {
             get
@@ -213,6 +214,10 @@ namespace SequencerDemo.Note
             get
             {
                 return this.beams;
+            }
+            set
+            {
+                this.beams = value;
             }
         }
 

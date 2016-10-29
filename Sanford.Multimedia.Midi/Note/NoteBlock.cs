@@ -10,6 +10,7 @@ namespace SequencerDemo.Note
         private long id;//小节Id
         private double maxLine = 0;//离第三条线最远距离，用于确定符杆方向
 
+        public string NBID { get; set; }
         public List<NoteGroup> Notes
         {
             get

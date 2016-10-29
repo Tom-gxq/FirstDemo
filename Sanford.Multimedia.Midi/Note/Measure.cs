@@ -109,6 +109,7 @@ namespace SequencerDemo.Note
             }
         }
 
+        public string MID { get; set; }
         public void AddNote(SequencerDemo.Note.Note note)
         {
             NoteBlock lastBlock = null;

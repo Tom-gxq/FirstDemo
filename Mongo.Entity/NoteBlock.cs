@@ -11,9 +11,6 @@ namespace Mongo.Entity
 {
     public class NoteBlock
     {
-        [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
-        public ObjectId _id { get; set; }
-
         private string nbid = string.Empty;
         [BsonElement("nbid")]
         public string NBID

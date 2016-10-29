@@ -11,9 +11,6 @@ namespace Mongo.Entity
 {
     public class Note
     {
-        [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
-        public ObjectId _id { get; set; }
-
         private string nid = string.Empty;
         [BsonElement("nid")]
         public string NID

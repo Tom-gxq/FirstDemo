@@ -21,6 +21,7 @@ namespace SequencerDemo.Note
         private List<Measure> measureList = new List<Measure>();//高音部小节
         private List<Measure> lowMeasureList = new List<Measure>();//低音部小节
 
+        public string SID { get; set; }
 
         public string Name
         {
@@ -371,6 +372,13 @@ namespace SequencerDemo.Note
             {
                 return this.measureList;
             }
+            set
+            {
+                this.measureList = value;
+            }
         }
+        public DateTime CreateTime { get; set; }
+        public DateTime UpdateTime { get; set; }
+        public DateTime LastTime { get; set; }
     }
 }

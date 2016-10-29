@@ -1,5 +1,6 @@
 ﻿using MD.DAL.Mongo;
 using Mongo.Entity;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -30,5 +31,43 @@ namespace Mongo.DAL
             return string.Empty;
         }
 
+        public Score GetMusicScoreByID(string sid)
+        {
+            var query = new QueryDocument();
+            query.Add("sid", sid);
+            return this.FindOne(query);
+        }
+
+        public List<Score> GetMusicScores(int pageIndex, int pageSize)
+        {
+            var query = new QueryDocument();
+            
+
+            var searchOptions = new FindOptions<Score, Score>()
+            {
+                Limit = pageSize,
+                Skip = (pageIndex - 1) * pageSize,
+                Projection = new BsonDocument() {
+                    {"name", 1},
+                    {"sid",1}
+                },
+                Sort = new BsonDocument("ctime", -1)
+            };
+            return this.Find(query, searchOptions);
+        }
+
+        public int GetMusicScoreCount()
+        {
+            var pipeline = new[]{
+                new BsonDocument("$group",new BsonDocument(){
+                    {"_id",1},
+                    {"total",new BsonDocument("$sum",1)}
+                })
+            };
+            List<BsonDocument> result = this.Aggregate<BsonDocument>(pipeline);
+            if (result.Count > 0)
+                return int.Parse(result.First()["total"].ToString());
+            return 0;
+        }
     }
 }

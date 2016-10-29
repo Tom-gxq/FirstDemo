@@ -11,9 +11,6 @@ namespace Mongo.Entity
 {
     public class NoteLocation
     {
-        [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
-        public ObjectId _id { get; set; }
-
         private string lid = string.Empty;
         [BsonElement("lid")]
         public string LID

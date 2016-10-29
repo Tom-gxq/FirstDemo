@@ -11,12 +11,9 @@ namespace Mongo.Entity
 {
     public class Measure
     {
-        [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
-        public ObjectId _id { get; set; }
-
         private string mid = string.Empty;
         [BsonElement("mid")]
-        public string SID
+        public string MID
         {
             get { return mid; }
             set { mid = value; }

@@ -8,7 +8,7 @@ namespace SequencerDemo.Note
     public class NoteGroup
     {
         private List<Note> noteList = new List<Note>();//小节中包含的音符数据
-
+        public string NGID { get; set; }
         public List<Note> Notes
         {
             get
